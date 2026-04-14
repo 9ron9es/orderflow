@@ -1,0 +1,7 @@
+nautilus-trader
+pandas
+numpy
+pyyaml
+requests
+rich
+watchdog

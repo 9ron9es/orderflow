@@ -1,0 +1,66 @@
+profile: backtest
+instrument_id: BTCUSDT-PERP.BINANCE
+order_id_tag: BT-001
+client_id: BINANCE
+timeframe: 5m
+htf_timeframe: 1h
+lookback_candles: 50
+book_depth: 5
+book_type: L1_MBP
+eval_throttle_ms: 200
+require_orderbook: false  # backtesting without live order book
+
+# ── Volume Profile configuration ──────────────────────────────────────────────
+vp_config:
+  bucket_size: 10.0
+  window_trades: 8000
+  value_area_pct: 0.70
+  hvn_percentile: 0.75
+  lvn_percentile: 0.25
+  proximity_bps: 15.0
+  min_buckets: 10
+  stop_buffer_bps: 5.0
+  session_mode: false
+
+# ── Signal configuration ──────────────────────────────────────────────────────
+signals_config:
+  long:
+    - hvn_absorption_long
+    - hvn_divergence_long
+    - poc_reclaim_long
+  short:
+    - hvn_absorption_short
+    - hvn_divergence_short
+    - poc_rejection_short
+
+signal:
+  imbalance_threshold: 0.20
+  cvd_smoothing: 5
+  absorption_min: 0.08
+  stack_min_rows: 2
+  ob_imb_threshold: 0.05
+  large_vol_ratio_min: 0.10
+  price_bucket_size: 1.0
+  large_trade_pct: 0.90
+  divergence_window: 3
+
+risk:
+  max_position_fraction: 0.25
+  max_notional_usdt: 20000
+  max_daily_loss_pct: 3.0
+  max_consecutive_losses: 4
+  max_spread_bps: 15.0
+  stale_tick_ms: 5000.0
+  min_top_of_book_qty: 0.0  # relaxed for backtest
+  kill_switch_path: null
+  max_leverage: 3.0
+  loss_cooldown_secs: 0
+  min_hold_secs: 0
+
+execution:
+  use_market_entries: true
+  entry_post_only: false
+  stoploss_pct: 0.015
+  trailing_trigger_pct: 0.012
+  trailing_offset_pct: 0.006
+  max_time_in_trade_secs: 1200
